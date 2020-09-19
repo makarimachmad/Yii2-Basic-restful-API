@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Model;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "country".
@@ -10,26 +12,30 @@ use Yii;
  * @property string $code
  * @property string $name
  * @property int $population
+ * @property string $bendera
  */
 class Country extends \yii\db\ActiveRecord
 {
+    
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'country';
+        //https://www.yiiframework.com/doc/guide/2.0/en/input-file-upload
     }
 
     /**
      * {@inheritdoc}
      */
+    //public $imageFile;
     public function rules()
     {
         return [
             [['code', 'name'], 'required'],
             [['population'], 'integer'],
-            [['bendera'], 'string', 'max' => 100],
+            [['bendera'], 'file', 'skipOnEmpty' => True, 'extensions' => 'png, jpg, svg'],
             [['code'], 'string', 'max' => 2],
             [['name'], 'string', 'max' => 52],
             [['code'], 'unique'],
@@ -45,7 +51,7 @@ class Country extends \yii\db\ActiveRecord
             'code' => 'Code',
             'name' => 'Name',
             'population' => 'Population',
-            'bendera' => 'bendera',
+            'bendera' => 'Bendera',
         ];
     }
 }

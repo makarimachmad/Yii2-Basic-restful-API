@@ -18,11 +18,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'population')->textInput() ?>
 
+    <?= Html::img('@web/img/' . $model['bendera'], ['width'=>'60px'])?>
+
     <?= $form->field($model, 'bendera')->fileInput() ?>
 
+    <br>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
+    
 
     <?php ActiveForm::end(); ?>
 

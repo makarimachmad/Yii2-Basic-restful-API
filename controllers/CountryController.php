@@ -6,6 +6,7 @@ use Yii;
 use app\models\Country;
 use app\models\CountrySearch;
 use yii\web\Controller;
+use yii\web\UploadedFile;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -66,8 +67,23 @@ class CountryController extends Controller
     {
         $model = new Country();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->code]);
+        if ($model->load(Yii::$app->request->post())) {
+            
+            //var_dump($model);
+            $bendera = UploadedFile::getInstance($model, 'bendera');
+            if($model->validate()){
+                $model->save();
+                if (!empty($bendera)) {
+                    $bendera->saveAs('img/'. $bendera->basename.'.'.$bendera->extension);
+                    $model->bendera = $bendera->basename.'.'.$bendera->extension;              
+                }
+            }
+ 
+            if($model->save()){
+                return $this->redirect(['view', 'id' => $model->code]);
+            }else{
+                var_dump($model->getErrors());
+            }
         }
 
         return $this->render('create', [

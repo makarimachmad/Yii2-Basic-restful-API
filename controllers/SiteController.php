@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\EntryForm;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -132,6 +134,7 @@ class SiteController extends Controller
         return $this->render('say', ['pesan' => $pesan]);
     }
     
+    //menampilkan halaman entryform
     public function actionEntry()
     {
         $model = new EntryForm();
@@ -140,5 +143,21 @@ class SiteController extends Controller
         }else{
             return $this->render('entry', ['model' => $model]);
         }
+    }
+
+    //menampilkan uploadform
+    public function actionUpload()
+    {
+        $model = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return $this->render('uploadform-confirm', ['model' => $model]);
+            }
+        }
+
+        return $this->render('upload', ['model' => $model]);
     }
 }

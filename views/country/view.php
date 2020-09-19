@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
@@ -32,6 +33,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'name',
             'population',
+            [
+
+                'attribute' => 'img',
+    
+                'format' => 'html',
+    
+                'label' => 'Bendera',
+    
+                'value' => function ($data) {
+    
+                    return Html::img('@web/img/' . $data['bendera'],
+    
+                        ['width' => '60px']);
+    
+                },
+            ],
         ],
     ]) ?>
 
